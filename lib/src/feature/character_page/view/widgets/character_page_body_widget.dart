@@ -40,24 +40,40 @@ class CharacterPageBodyWidget extends StatelessWidget {
     } else {
       return vm.charactersModels.isEmpty
           ? Center(child: Text('List is empty'))
-          : GridView.builder(
-              controller: vm.scrollController,
-              padding: REdgeInsets.symmetric(vertical: 10, horizontal: 8),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.65,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 10,
-              ),
-              itemCount: vm.charactersModels.length + (vm.isFetchingMore ? 1 : 0),
-              itemBuilder: (_, i) {
-                if (i == vm.charactersModels.length) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+          : Column(
+              children: [
+                Expanded(
+                  child: GridView.builder(
+                    controller: vm.scrollController,
+                    padding: REdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.65,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 10,
+                    ),
+                    // itemCount: vm.charactersModels.length + (vm.isFetchingMore ? 1 : 0),
+                    itemCount: vm.charactersModels.length,
+                    itemBuilder: (_, i) {
+                      // if (i == vm.charactersModels.length) {
+                      //   return const Center(child: CircularProgressIndicator());
+                      // }
 
-                CharacterModel model = vm.charactersModels[i];
-                return CharacterPageCardWidget(model: model, onTap: () {});
-              },
+                      CharacterModel model = vm.charactersModels[i];
+                      return CharacterPageCardWidget(model: model, onTap: () {});
+                    },
+                  ),
+                ),
+                if (vm.isFetchingMore)
+                  Center(
+                    child: Padding(
+                      padding: REdgeInsets.all(8.0),
+                      child: CircularProgressIndicator(
+                        color: AppColors.white,
+                      ),
+                    ),
+                  )
+              ],
             );
     }
   }

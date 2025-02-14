@@ -54,17 +54,27 @@ class SearchCharacterPageBodyWidget extends StatelessWidget {
                               crossAxisSpacing: 8,
                               mainAxisSpacing: 10,
                             ),
-                            itemCount: vm.charactersModels.length + (vm.isFetchingMore ? 1 : 0),
+                            // itemCount: vm.charactersModels.length + (vm.isFetchingMore ? 1 : 0),
+                            itemCount: vm.charactersModels.length,
                             itemBuilder: (_, i) {
-                              if (i == vm.charactersModels.length) {
-                                return const Center(child: CircularProgressIndicator());
-                              }
+                              // if (i == vm.charactersModels.length) {
+                              //   return const Center(child: CircularProgressIndicator());
+                              // }
 
                               CharacterModel model = vm.charactersModels[i];
                               return CharacterPageCardWidget(model: model, onTap: () {});
                             },
                           ),
           ),
+          if (vm.isFetchingMore)
+            Center(
+              child: Padding(
+                padding: REdgeInsets.all(8.0),
+                child: CircularProgressIndicator(
+                  color: AppColors.white,
+                ),
+              ),
+            )
           // Text("Load More")
         ],
       ),
